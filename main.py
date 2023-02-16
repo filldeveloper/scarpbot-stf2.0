@@ -218,37 +218,14 @@ try:
                 for conteudo in content_html:
                     # Desvio para corrigir problema de não carregar o HTML
                     texto = outer_html(conteudo)
-                    # try:
-                    #    html_content = conteudo.get_attribute('outerHTML')
-                    # except:
-                    #    html_content = conteudo.get_attribute('outerHTML')
-                    # soup = BeautifulSoup(html_content, 'html.parser')
-                    # texto = soup.get_text()
 
                     if len(texto) < 3:
                         continue
-
-                    # método para remover o /xa0
-                    # novo_texto = unicodedata.normalize("NFKD", texto)
                     
                     # Escrever texto raspado no arquivo txt
                     txt.write(texto + "\n")
-                    # try:
-                    #     txt.write(texto + "\n")
-                    # except:
-                    #     for x in texto:
-                    #         # if x == '\u0303' or x == '\u0301' or x == '\x96' or x == '\u0327' or x == '\u0315' \
-                    #         # or x == '\u201f' or x == '\u02da' or x == '\u0300' or x == '\u02c8' or x == '\u2215' \
-                    #         # or x == '\u25aa' or x == '\u2012' or x =='\u202f' or x == '\u0302' or x == '\u030a' \
-                    #         # or x == '\u03b2'or x == '\u27a2' or x== '\u2006' or x == '\u2015' or x == '\u2016' \
-                    #         # or x == '\u037e':
-
-                    #         if x == '\u0303':
-                    #             continue
-                    #         elif x == '\u2212':
-                    #             x = '-'
-                    #         txt.write(x)
-                    
+                
+                # Escrever número do processo no arquivo resumo
                 num_processos_file.write(f'{count_processos}) <P>{text_processo} \n')
                 count_processos += 1
 
