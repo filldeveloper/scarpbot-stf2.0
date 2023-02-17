@@ -18,7 +18,6 @@ import pandas as pd
 from pprint import pprint
 
 url = 'https://digital.stf.jus.br/publico/publicacoes'
-# Apresentar o número de registros encontrados e baixados
 
 date_hour_start = datetime.today().strftime('%d/%m/%Y %H:%M')
 
