@@ -141,6 +141,16 @@ def scrap_pagina(chrome, txt, txt_num_processos, elem, num_processo_parado):
         except:
             shadow_root = WebElement(chrome, shadow_root_id, w3c=True)
 
+        # Workarround para pegar a decisão que agora está dentro de uma div
+        try:
+            decisao = shadow_root.find_element(
+                            By.CLASS_NAME, 'P1'
+                            )
+            texto_decisao = outer_html(decisao)
+            txt.write(texto_decisao)
+        except:
+            pass
+
         try:
             content_html = shadow_root.find_elements(
                 By.TAG_NAME, 'p'
