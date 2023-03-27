@@ -127,6 +127,8 @@ try:
             try:
                 elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
             except:
+                print("Esperando carregar html")
+                sleep(20)
                 elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
 
             # Função que busca o texto escondido em shadow
@@ -186,11 +188,11 @@ try:
                 # Pegar os dados dos envolvidos no processo
                 try:
                     envolvidos = elem.find_element(
-                        By.CLASS_NAME, 'ng-hide'
+                        By.CLASS_NAME, 'layout-align-space-between-start'
                         )
                 except:
                     envolvidos = elem.find_element(
-                        By.CLASS_NAME, 'ng-hide'
+                        By.CLASS_NAME, 'layout-align-space-between-start'
                         )
                 envolvidos = envolvidos.find_elements(By.CLASS_NAME, 'envolvido')
                 
@@ -227,6 +229,10 @@ try:
                     # Desvio para corrigir problema de não carregar o HTML
                     texto = outer_html(conteudo)
 
+                    # Condição para evitar repetição da primeira linha
+                    if texto == texto_decisao:
+                        continue
+
                     if len(texto) < 3:
                         continue
                     
@@ -251,7 +257,10 @@ try:
             chrome.find_element(
                 By.XPATH, '//*[@id="conteudo"]/div[3]/md-content/div[1]/dir-pagination-controls/div/div[2]/div[2]/div/a[2]'
                 ).click()
-            sleep(2.2)
+            # if count_processos > 439:
+            #     print("Esperando página carregar")
+            #     sleep(20)
+            sleep(3)
 
     with open(caminho_resumo, "a") as resumo:
         date_hour_end = datetime.today().strftime('%d/%m/%Y %H:%M')

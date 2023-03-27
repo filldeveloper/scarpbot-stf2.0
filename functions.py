@@ -113,11 +113,11 @@ def scrap_pagina(chrome, txt, txt_num_processos, elem, num_processo_parado):
         # Pegar os dados dos envolvidos no processo
         try:
             envolvidos = elem.find_element(
-                By.CLASS_NAME, 'ng-hide'
+                By.CLASS_NAME, 'layout-align-space-between-start'
                 )
         except:
             envolvidos = elem.find_element(
-                By.CLASS_NAME, 'ng-hide'
+                By.CLASS_NAME, 'layout-align-space-between-start'
                 )
         envolvidos = envolvidos.find_elements(By.CLASS_NAME, 'envolvido')
 
@@ -169,6 +169,10 @@ def scrap_pagina(chrome, txt, txt_num_processos, elem, num_processo_parado):
             #    html_content = conteudo.get_attribute('outerHTML')
             # soup = BeautifulSoup(html_content, 'html.parser')
             # texto = soup.get_text()
+
+            # Condição para evitar repetição da primeira linha
+            if texto == texto_decisao:
+                continue
 
             if len(texto) < 3:
                 continue
@@ -297,10 +301,15 @@ def continuar_parametro():
             ).click()
         sleep(1.5)
         count_page += 1
-    sleep(1)
+    sleep(3)
 
     processo_seguinte = int(num_processo_parado) % 10
-    elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
+    try:
+        elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
+    except:
+        print("Esperando carregar html")
+        sleep(20)
+        elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
     
 
     txt_num_processos = open(caminho_num_processos, 'a')
