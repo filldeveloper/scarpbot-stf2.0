@@ -124,29 +124,10 @@ try:
         for number in range(range_loop):
 
             # Pegar Conteúdo da página
-            try:
-                elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
-            except:
-                print("Esperando carregar html")
-                sleep(20)
-                elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
-
-            # Função que busca o texto escondido em shadow
-            # shadow_section = chrome.find_elements_by_class_name(
-            #     'shadow'
-            #     )
+            elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
 
             for elem in elementos:
-
-                # if 'Apresentando de' in cabecalho and 'registros' in cabecalho:
-                #     continue
-                
-                # método para remover o /xa0
-                # novo_cabecalho = unicodedata.normalize("NFKD", cabecalho)
-
-                
                 # Pegar número do processo
-                
                 processo = elem.find_element(By.CLASS_NAME, 'processo')
                 text_processo = outer_html(processo)
 
@@ -156,15 +137,10 @@ try:
                 txt.write(f'<P>{text_processo}' + "\n")
 
                 # Pegar o tipo e data do despacho
-                try:
-                    despacho = elem.find_elements(
-                        By.TAG_NAME, 'md-chips-wrap'
-                        )
-                except:
-                    despacho = elem.find_elements(
-                        By.TAG_NAME, 'md-chips-wrap'
-                        )
-
+                despacho = elem.find_elements(
+                    By.TAG_NAME, 'md-chips-wrap'
+                    )
+        
                 # data e tipo de despacho
                 text_despacho = outer_html(despacho[1])
                 tipo_despacho = text_despacho[:-31]
@@ -174,10 +150,7 @@ try:
                 txt.write(tipo_despacho + "\n")
 
                 # Pegar os dados do relator
-                try:
-                    relator = elem.find_element(By.CLASS_NAME, 'relator')
-                except:
-                    relator = elem.find_element(By.CLASS_NAME, 'relator')
+                relator = elem.find_element(By.CLASS_NAME, 'relator')
 
                 text_relator = outer_html(relator)
                 txt.write(text_relator + "\n")
@@ -186,14 +159,9 @@ try:
                 txt.write(data_despacho + "\n")
                 
                 # Pegar os dados dos envolvidos no processo
-                try:
-                    envolvidos = elem.find_element(
-                        By.CLASS_NAME, 'layout-align-space-between-start'
-                        )
-                except:
-                    envolvidos = elem.find_element(
-                        By.CLASS_NAME, 'layout-align-space-between-start'
-                        )
+                envolvidos = elem.find_element(
+                    By.CLASS_NAME, 'layout-align-space-between-start'
+                    )
                 envolvidos = envolvidos.find_elements(By.CLASS_NAME, 'envolvido')
                 
                 for envolvido in envolvidos:
@@ -260,7 +228,7 @@ try:
             # if count_processos > 439:
             #     print("Esperando página carregar")
             #     sleep(20)
-            sleep(3)
+            sleep(4.2)
 
     with open(caminho_resumo, "a") as resumo:
         date_hour_end = datetime.today().strftime('%d/%m/%Y %H:%M')
