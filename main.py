@@ -125,7 +125,7 @@ try:
 
             # Pegar Conteúdo da página
             elementos = chrome.find_elements(By.CLASS_NAME, 'publicacoes')
-
+            sleep(0.2)
             for elem in elementos:
                 # Pegar número do processo
                 processo = elem.find_element(By.CLASS_NAME, 'processo')
@@ -143,6 +143,7 @@ try:
         
                 # data e tipo de despacho
                 text_despacho = outer_html(despacho[1])
+                publicacao = outer_html(despacho[2])
                 tipo_despacho = text_despacho[:-31]
                 data_despacho = text_despacho[-31:-1]
 
@@ -157,6 +158,14 @@ try:
 
                 # Adicionando a data do despacho no txt
                 txt.write(data_despacho + "\n")
+
+                # Adicionando a data de publicação no txt
+                txt.write(publicacao + "\n")
+
+                # Pegar envolvidos que estão ocultos na página
+                btn_envolvidos = elem.find_element(By.CSS_SELECTOR, '.md-primary')
+                chrome.execute_script("arguments[0].click();", btn_envolvidos)
+                sleep(0.2)
                 
                 # Pegar os dados dos envolvidos no processo
                 envolvidos = elem.find_element(
@@ -185,7 +194,7 @@ try:
                                     By.CLASS_NAME, 'P1'
                                     )
                     texto_decisao = outer_html(decisao)
-                    txt.write(texto_decisao) 
+                    txt.write(texto_decisao.strip() + '\n') 
                 except:
                     pass
 
@@ -221,7 +230,7 @@ try:
             
             count += 1
             # Function to press the next button
-            sleep(1)
+            
             chrome.find_element(
                 By.XPATH, '//*[@id="conteudo"]/div[3]/md-content/div[1]/dir-pagination-controls/div/div[2]/div[2]/div/a[2]'
                 ).click()

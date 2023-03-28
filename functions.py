@@ -107,8 +107,17 @@ def scrap_pagina(chrome, txt, txt_num_processos, elem, num_processo_parado):
                 )
         # data de despacho
         text_despacho = outer_html(despacho[1])
+        publicacao = outer_html(despacho[2])
         data_despacho = text_despacho[-31:-1]
         txt.write(data_despacho + "\n")
+
+        # Adicionando a data de publicação no txt
+        txt.write(publicacao + "\n")
+
+        # Pegar envolvidos que estão ocultos na página
+        btn_envolvidos = elem.find_element(By.CSS_SELECTOR, '.md-primary')
+        chrome.execute_script("arguments[0].click();", btn_envolvidos)
+        sleep(0.2)
 
         # Pegar os dados dos envolvidos no processo
         try:
@@ -147,7 +156,7 @@ def scrap_pagina(chrome, txt, txt_num_processos, elem, num_processo_parado):
                             By.CLASS_NAME, 'P1'
                             )
             texto_decisao = outer_html(decisao)
-            txt.write(texto_decisao)
+            txt.write(texto_decisao.strip() + '\n')
         except:
             pass
 
